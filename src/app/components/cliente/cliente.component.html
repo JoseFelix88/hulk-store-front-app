@@ -1,5 +1,99 @@
-<h1 class="animated fadeIn fast">cliente works!</h1>
-<p class="animated fadeIn">
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia nisi tempore rem aliquid sapiente fugiat consequatur omnis ab quaerat, vero aspernatur facere, velit, maxime voluptas vitae dolore voluptatem distinctio porro!
+<div class="container">
+  <h1 class="animated fadeIn fast text-center">CLIENTES</h1>
+    <hr>
+      <!-- <div class="form-group form-inline">
+          <input class="form-control ml-2" style="width: auto" type="text" name="searchCliente" placeholder="Enter para buscar cliente..."
+          (keyup.enter) = "filtroBuscarCliente(searchCliente.value)" #searchCliente />
+          <!-- <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+      </div>
+      <div class="row" *ngIf="LIST_CLIENTES.length == 0">
+        <div class="col-md-12">
+          <div class="alert alert-info" role="alert">
+            No se encontraron resultados para el filtro: {{ parametroFiltroBuscarCliente }}
+          </div>
+        </div>
+      </div> -->
 
-</p>
+      <mat-form-field>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Buscar cliente...">
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" class="table table-striped">
+
+            <ng-container matColumnDef="numeroIdentificacion">
+              <th mat-header-cell *matHeaderCellDef> No. Identificación </th>
+              <td mat-cell *matCellDef="let cliente"> {{ cliente.numeroIdentificacion }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Cliente">
+              <th mat-header-cell *matHeaderCellDef> Cliente </th>
+              <td mat-cell *matCellDef="let cliente"> {{ cliente.nombres }} {{ cliente.apellidos }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Telefono">
+              <th mat-header-cell *matHeaderCellDef> Telefono </th>
+              <td mat-cell *matCellDef="let cliente"> {{ cliente.telefono }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="direccion">
+              <th mat-header-cell *matHeaderCellDef> Dirección </th>
+              <td mat-cell *matCellDef="let cliente"> {{ cliente.direccion }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="correoElectronico">
+              <th mat-header-cell *matHeaderCellDef> E-Mail </th>
+              <td mat-cell *matCellDef="let cliente"> {{ cliente.correoElectronico }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+
+
+
+
+      <!-- <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Número de Identificación</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Telefono</th>
+              <th scope="col">Dirección</th>
+              <th scope="col">E-Mail</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of LIST_CLIENTES; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>
+                {{ cliente.numeroIdentificacion }}
+              </td>
+              <td>
+                {{ cliente.nombres }} {{ cliente.apellidos }}
+              </td>
+              <td>
+                {{ cliente.telefono }}
+              </td>
+              <td>
+                {{ cliente.direccion }}
+              </td>
+              <td>
+                {{ cliente.correoElectronico }}
+              </td>
+              <td>
+                <div class="row">
+                    <a href="#">Edit</a>
+                    <a href="#">Ver</a>
+                    <a href="#">Impr</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+    </table> -->
+</div>

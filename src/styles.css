@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/*@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";*/
+/*@import "~@angular/material/prebuilt-themes/purple-green.css";*/
+/*@import '@angular/material/prebuilt-themes/deeppurple-amber.css';*/
 footer{
     color: white;
     position: fixed;
@@ -18,24 +21,27 @@ footer{
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
   }
-  
+
   .fast {
     -webkit-animation-duration: 0.4s;
     animation-duration: 0.4s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
   }
-  
+
   @keyframes fadeIn {
     from {
       opacity: 0;
     }
-  
+
     to {
       opacity: 1;
     }
   }
-  
+
   .fadeIn {
     animation-name: fadeIn;
   }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* @import '@angular/material/prebuilt-themes/pink-bluegrey.css'; */
