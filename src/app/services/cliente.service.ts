@@ -6,6 +6,8 @@ import { Cliente } from '../models/cliente';
 })
 export class ClienteService {
 
+  private cliente: Cliente;
+
   LIST_CLIENTES: Cliente[] = [{
     codigoCliente:1,
     numeroIdentificacion: '1102819530',
@@ -16,6 +18,7 @@ export class ClienteService {
     correoElectronico: 'josecuriel88@gmail.com'
   },
   {
+    codigoCliente:2,
     numeroIdentificacion: '12002991',
     nombres: 'Thaliana',
     apellidos: 'Curiel Vanegas',
@@ -38,28 +41,9 @@ export class ClienteService {
     return this.LIST_CLIENTES;
   }
 
-  filtroBuscarCliente(filtroBuscarCliente:string): Cliente[]{
-    let lstClientes: Cliente[] = [];
-    filtroBuscarCliente = filtroBuscarCliente.toLowerCase();
-    for (let cliente of this.LIST_CLIENTES) {
-      let tododatacliente: string ='';
-       tododatacliente = tododatacliente
-       .concat(cliente.nombres)
-       .concat(' ')
-       .concat( cliente.apellidos )
-       .concat(' ')
-       .concat( cliente.numeroIdentificacion )
-       .concat(' ')
-       .concat( cliente.telefono )
-       .concat(' ')
-       .concat( cliente.direccion )
-       .concat(' ')
-       .concat(cliente.correoElectronico);
-      if(tododatacliente.toLowerCase().indexOf( filtroBuscarCliente ) >= 0) {
-        console.log(tododatacliente);
-        lstClientes.push( cliente );
-      }
-    }
-    return lstClientes;
+  public getCliente(){return this.cliente}
+
+  public setCliente(cliente: Cliente): void {
+    this.cliente = cliente;
   }
 }
