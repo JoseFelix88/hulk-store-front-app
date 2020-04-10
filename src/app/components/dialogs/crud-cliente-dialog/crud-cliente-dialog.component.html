@@ -3,7 +3,7 @@
     <h2 mat-dialog-title>{{ titleModal }}</h2>
   </mat-toolbar-row>
 </mat-toolbar>
-<form [formGroup]="formGroupCrudCliente" class="example-form">
+<form [formGroup]="formGroupCrudCliente" class="example-form" >
 <mat-dialog-content>
   <mat-tab-group>
     <mat-tab label="Datos Cliente">
@@ -14,7 +14,8 @@
         <mat-grid-tile>
           <mat-form-field class="example-full-width">
             <input matInput name="numeroIdentificacion" formControlName="numeroIdentificacion"
-            placeholder="Número de Identificación" type="text" id="textnumeroidentificacion">
+            placeholder="Número de Identificación" type="text" id="textnumeroidentificacion"
+            [disableControl]="inhabilitarCompomente">
             <mat-error>Ingrese el número de identificación.</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -22,7 +23,8 @@
         <mat-grid-tile>
           <mat-form-field class="example-full-width">
             <input  matInput name="nombres" formControlName="nombres"
-                    placeholder="Nombres" id="textnombres" >
+                    placeholder="Nombres" id="textnombres"
+                    [disableControl]="inhabilitarCompomente">
              <mat-error>Ingrese el nombre.</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -30,7 +32,8 @@
         <mat-grid-tile>
           <mat-form-field class="example-full-width">
             <input  matInput name="apellidos" formControlName="apellidos"
-                    placeholder="Apellidos" id="textapellidos" >
+                    placeholder="Apellidos" id="textapellidos"
+                    [disableControl]="inhabilitarCompomente">
             <mat-error>Ingrese los apellidos.</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -38,7 +41,8 @@
         <mat-grid-tile>
           <mat-form-field class="example-full-width">
             <input matInput name="telefono" formControlName="telefono"
-            placeholder="Telefono" id="textelefono" type="tel" >
+            placeholder="Telefono" id="textelefono" type="tel"
+            [disableControl]="inhabilitarCompomente">
             <mat-error>Ingrese el número de telefono.</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -46,14 +50,16 @@
         <mat-grid-tile>
           <mat-form-field class="example-full-width">
             <input matInput name="correoElectronico" formControlName="correoElectronico"
-            placeholder="Correo Electronico" id="textcorreoElectronico" type="email" >
+            placeholder="Correo Electronico" id="textcorreoElectronico" type="email"
+            [disableControl]="inhabilitarCompomente">
             <mat-error>Ingrese el correo electronico.</mat-error>
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field class="example-full-width">
-            <input matInput name="direccion" formControlName="direccion" placeholder="Dirección" id="texdireccion" >
+            <input matInput name="direccion" formControlName="direccion" placeholder="Dirección" id="texdireccion"
+            [disableControl]="inhabilitarCompomente">
             <mat-error>Ingrese la dierección.</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -62,16 +68,17 @@
   </mat-tab>
 </mat-tab-group>
 </mat-dialog-content>
-  <div class="row">
+  <div class="row" *ngIf="!inhabilitarCompomente">
     <div class="col">
         <div mat-dialog-actions>
-            <button mat-raised-button color="primary" (click)="cleanFormCliente()" >Nuevo</button>
+            <button mat-raised-button color="primary" (click)="cleanFormCliente()">Nuevo</button>
         </div>
     </div>
     <div class="col">
         <div mat-dialog-actions>
             <button  mat-raised-button color="primary" (click)="guardarCliente()"
-                    [disabled]="formGroupCrudCliente.invalid"> Guardar
+                    [disabled]="formGroupCrudCliente.invalid"
+                  > Guardar
             </button>
         </div>
     </div>

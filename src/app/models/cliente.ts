@@ -1,4 +1,4 @@
-export interface Cliente {
+export interface Clientes {
   codigoCliente?: number;
   numeroIdentificacion: string;
   nombres: string;
@@ -6,5 +6,4 @@ export interface Cliente {
   telefono: string;
   direccion: string;
   correoElectronico?: string;
-  estadoCliente?: string;
 }

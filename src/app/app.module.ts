@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import {MaterialModule} from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 //Rutas
 import { APP_ROUTING } from './app.routes';
@@ -23,6 +23,9 @@ import { ClienteService } from './services/cliente.service';
 import { ImageIconService } from './services/image-icon.service';
 import { DialogService } from './services/dialog.service';
 
+//Customs directivas
+import { DisableControlDirectiveDirective } from './directives/disable-control-directive.directive';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { DialogService } from './services/dialog.service';
     NavbarComponent,
     FooterComponent,
     HomeComponent,
-    CrudClienteDialogComponent
+    CrudClienteDialogComponent,
+    DisableControlDirectiveDirective
   ],
   entryComponents: [CrudClienteDialogComponent],
   imports: [
@@ -40,8 +44,7 @@ import { DialogService } from './services/dialog.service';
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule
+    ReactiveFormsModule    
   ],
   providers: [ClienteService, ImageIconService, DialogService],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {MatDialog} from '@angular/material'
+import { MatDialog } from '@angular/material'
 
 
 @Injectable({
@@ -8,6 +8,7 @@ import {MatDialog} from '@angular/material'
 export class DialogService {
 
   private tituloModal:string;
+  private inhabilitarCompomente:boolean;
 
   public getTituloModal(): string{
     return this.tituloModal;
@@ -16,6 +17,16 @@ export class DialogService {
   public setTituloModal(tituloModal: string): void{
     this.tituloModal = tituloModal;
   }
+
+  public getInhabilitarCompomente(): boolean{
+    return this.inhabilitarCompomente;
+  }
+
+  public setInhabilitarCompomente(inhabilitarCompomente: boolean): void{
+    this.inhabilitarCompomente = inhabilitarCompomente;
+  }
+
+
 
   constructor(private dialog: MatDialog) { }
 

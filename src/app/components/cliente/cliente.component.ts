@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material';
-import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
+import { MatPaginatorIntl, PageEvent, MatSort, MatPaginator } from "@angular/material";
 import { ClienteService } from 'src/app/services/cliente.service';
-import { Cliente } from 'src/app/models/cliente';
+import { Clientes } from 'src/app/models/cliente';
 import { ImageIconService } from 'src/app/services/image-icon.service';
 import { CrudClienteDialogComponent } from '../dialogs/crud-cliente-dialog/crud-cliente-dialog.component';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -17,28 +16,29 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
-  LIST_CLIENTES: Cliente[];
+  displayedColumns: string[] = ['numeroIdentificacion', 'Cliente', 'Telefono', 'direccion', 'correoElectronico', 'Acciones'];
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort , {static: true}) sort: MatSort;
+  parametroFiltroBuscarCliente: string;
+
   constructor(private _clienteService: ClienteService
     , private _imageIconService: ImageIconService
     , private paginatorIntl: MatPaginatorIntl
     , public matDialog: MatDialog
     , private _dialogService: DialogService) {
 
-    this.LIST_CLIENTES = _clienteService.getListClientes();
     this._imageIconService.loadIconApp();
     this.paginatorIntl.itemsPerPageLabel = "Items por página";
   }
 
-  displayedColumns: string[] = ['numeroIdentificacion', 'Cliente', 'Telefono', 'direccion', 'correoElectronico', 'Acciones'];
-  // dataSource = new MatTableDataSource<Cliente>(this.LIST_CLIENTES);
-   dataSource = new MatTableDataSource();
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
-  parametroFiltroBuscarCliente: string;
   ngOnInit() {
-    this.dataSource.data = this.LIST_CLIENTES;
-    this.dataSource.paginator = this.paginator;
+    this._clienteService.getListClientes().subscribe(lstClients => {
+      this.dataSource.data = lstClients;
+      this.dataSource.sort= this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   applyFilter(event: Event) {
@@ -48,6 +48,7 @@ export class ClienteComponent implements OnInit {
 
  openDialogCrearCliente(): void {
    this._dialogService.setTituloModal("Crear Cliente");
+   this._dialogService.setInhabilitarCompomente(false);
    this._clienteService.setCliente(null);
       const dialogRef = this.matDialog.open(CrudClienteDialogComponent, {
       width: '650px',
@@ -56,21 +57,23 @@ export class ClienteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed'+result);
-
+      this.ngOnInit();
      });
   }
 
-  openDialogUpdateReadCliente(readUpdateCliente: Cliente, flag_accion: string): void {
+  openDialogUpdateReadCliente(readUpdateCliente: Clientes, flag_accion: string): void {
     this._clienteService.setCliente(readUpdateCliente);
     if(flag_accion == "edit") {
       this._dialogService.setTituloModal("Editar Cliente");
+      this._dialogService.setInhabilitarCompomente(false);
     } else {
       this._dialogService.setTituloModal("Ver Cliente");
+      this._dialogService.setInhabilitarCompomente(true);
     }
     const dialogRef = this.matDialog.open(CrudClienteDialogComponent, {
-    width: '650px',
-    height:'600px'
-  });
+        width: '650px',
+        height:'600px'
+      });
   }
 
 }
