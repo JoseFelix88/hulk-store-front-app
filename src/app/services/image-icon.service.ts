@@ -29,5 +29,9 @@ export class ImageIconService {
     this.iconRegistry.addSvgIcon(
           'print',
     this.sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/print.svg'));
+
+    this.iconRegistry.addSvgIcon(
+          'close',
+    this.sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/close.svg'));
   }
 }

@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material';
-import { MatPaginatorIntl, PageEvent, MatSort, MatPaginator } from "@angular/material";
+import { MatPaginatorIntl, MatSort, MatPaginator } from "@angular/material";
 import { ClienteService } from 'src/app/services/cliente.service';
 import { Clientes } from 'src/app/models/cliente';
 import { ImageIconService } from 'src/app/services/image-icon.service';
 import { CrudClienteDialogComponent } from '../dialogs/crud-cliente-dialog/crud-cliente-dialog.component';
 import { DialogService } from 'src/app/services/dialog.service';
-
-
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-cliente',
@@ -56,8 +55,9 @@ export class ClienteComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed'+result);
-      this.ngOnInit();
+      if(result != null){
+        this.ngOnInit();
+      }
      });
   }
 
@@ -74,6 +74,22 @@ export class ClienteComponent implements OnInit {
         width: '650px',
         height:'600px'
       });
+
+      dialogRef.afterClosed().subscribe(result => {
+          if(result != null){
+            this.ngOnInit();
+          }
+      });
+  }
+
+  public printDataBasicCustomer(cliente: Clientes) {
+      console.table({
+        nombres: cliente.nombres,
+        numeroIdentificacion: cliente.numeroIdentificacion
+      })
+      let nameFileExport = 'Reporte Datos Basicos Cliente - ' + cliente.nombres + ' ' + cliente.apellidos;
+      this._clienteService.printDataBasicCustomer(cliente.codigoCliente)
+      .subscribe(data => saveAs(data, nameFileExport + `.pdf`));
   }
 
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Clientes } from '../models/cliente';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Endpoints } from '../global/enpoint';
 import { Observable } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,37 +12,10 @@ export class ClienteService {
 
   private cliente: Clientes;
 
-  LIST_CLIENTES: any[]; /*= [{
-    codigoCliente:1,
-    numeroIdentificacion: '1102819530',
-    nombres: 'Jose Felix',
-    apellidos: 'Curiel Gomez',
-    telefono: '313 552 5344',
-    direccion: 'Calle 17 # 24-71 las colinas',
-    correoElectronico: 'josecuriel88@gmail.com'
-  },
-  {
-    codigoCliente:2,
-    numeroIdentificacion: '12002991',
-    nombres: 'Thaliana',
-    apellidos: 'Curiel Vanegas',
-    telefono: 'N/A',
-    direccion: 'Corregimiento Nueva estrella Tuchin',
-    correoElectronico: 'N/A'
-  },
-  {
-    numeroIdentificacion: '50710721',
-    nombres: 'Greys Margarita',
-    apellidos: 'Vanegas Velasquez',
-    telefono: '328 580 9828',
-    direccion: 'Corregimiento Nueva estrella Tuchin',
-    correoElectronico: 'gresyvanegas@hotmail.com'
-  }]*/
-
   constructor(private httpClient: HttpClient) { }
 
   getListClientes(): Observable<Clientes[]> {
-    return this.httpClient.get<GetResponse>(Endpoints.CLIENTES_ALL)
+    return this.httpClient.get<GetResponseClient>(Endpoints.CLIENTES_ALL)
     .pipe(
       map(response => response._embedded.clientes)
     );
@@ -61,6 +34,18 @@ export class ClienteService {
     }
   }
 
+  getLatestBalancePurchaseCustomer(codigoCliente: number): Observable<any> {
+  return  this.httpClient.get(Endpoints.CLIENTES_ALL
+                        + Endpoints.CLIENT_REPORT_BALANCE_LAST_SHOPPING + codigoCliente)
+  }
+
+  public printDataBasicCustomer(codigoCliente: number){
+
+    return this.httpClient.get(Endpoints.CLIENTES_ALL + Endpoints.CLIENT_REPORT_PRINT_BASIC_DATA + codigoCliente,
+        {responseType: 'blob'});
+}
+
+
   newCliente(): Clientes {
     return {
       codigoCliente: null,
@@ -73,15 +58,31 @@ export class ClienteService {
     };
   }
 
-  public getCliente(){return this.cliente}
+  public getCliente(){ return this.cliente }
 
   public setCliente(cliente: Clientes): void { this.cliente = cliente; }
 
 }
 
-export interface GetResponse {
+export interface GetResponseClient {
   _embedded: {
     clientes: Clientes[];
+    _link: {self: {href: string}};
+  }
+}
+
+export interface ReporteDetalleComprasClienteProxies {
+  codigoVenta: number;
+  fechaVenta: Date;
+  descripcionProducto: string;
+  cantidadComprada: number;
+  valorUnidad: number;
+  valorTotal: number;
+}
+
+export interface GetResponseReporteCompras {
+  _embedded: {
+    ReporteDetalleComprasClienteProxies: ReporteDetalleComprasClienteProxies[];
     _link: {self: {href: string}};
   }
 }

@@ -58,9 +58,10 @@
                           (click)="openDialogUpdateReadCliente(cliente, 'ver')">
                     <mat-icon svgIcon="info" ></mat-icon>
                   </button>
-                  <button mat-icon-button color="info" title="Imprimir" >
+                  <a mat-icon-button color="info" title="Imprimir"
+                      (click)="printDataBasicCustomer(cliente)">
                     <mat-icon svgIcon="print" ></mat-icon>
-                  </button>
+                  </a>
                 </td>
               </ng-container>
 

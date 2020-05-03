@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Clientes } from 'src/app/models/cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { MatDialogRef } from '@angular/material';
+import { ImageIconService } from 'src/app/services/image-icon.service';
 
 
 @Component({
@@ -20,7 +23,10 @@ export class CrudClienteDialogComponent implements OnInit {
 
   constructor(private formBuildCrudCliente: FormBuilder
     , private _clienteService: ClienteService
-    , private _dialogService: DialogService) { }
+    , private _dialogService: DialogService
+    , private _notificationService: NotificationService
+    , private dialogRef: MatDialogRef<CrudClienteDialogComponent>
+    , private _imageIconService: ImageIconService) { }
 
   ngOnInit(): void {
     this.formGroupCrudCliente = new FormGroup({
@@ -35,6 +41,7 @@ export class CrudClienteDialogComponent implements OnInit {
     this.builderFormCrudCliente();
     this.titleModal = this._dialogService.getTituloModal();
     this.inhabilitarCompomente = this._dialogService.getInhabilitarCompomente();
+    this._imageIconService.loadIconApp();
   }
 
   public builderFormCrudCliente() {
@@ -56,6 +63,7 @@ export class CrudClienteDialogComponent implements OnInit {
   }
 
   cleanFormCliente(){
+    this.formGroupCrudCliente.reset;
     this.formGroupCrudCliente = this.formBuildCrudCliente.group({
       codigoCliente: [''],
       numeroIdentificacion: ['', [Validators.required]] ,
@@ -68,22 +76,45 @@ export class CrudClienteDialogComponent implements OnInit {
   }
 
   guardarCliente() {
+    let msjConfirma: string;
+    let msjNotificacion: string;
     if(this.formGroupCrudCliente.get('codigoCliente').value != '') {
+      msjConfirma = '¿Estás seguro que desea modificar el cliente?'
+      msjNotificacion = 'El cliente ' + this.formGroupCrudCliente.get('nombres').value +
+                        ' ' + this.formGroupCrudCliente.get('apellidos').value +
+                        ' ha sido modificado correctamente.'
       this.cliente.codigoCliente = this.formGroupCrudCliente.get('codigoCliente').value;
     } else {
+      msjConfirma = '¿Estás seguro que desea registrar el cliente?'
+      msjNotificacion = 'El cliente ' + this.formGroupCrudCliente.get('nombres').value +
+                        ' ' + this.formGroupCrudCliente.get('apellidos').value +
+                        ' ha sido registrado correctamente.'
       this.cliente = this._clienteService.newCliente();
     }
-    this.cliente.numeroIdentificacion = this.formGroupCrudCliente.get('numeroIdentificacion').value;
-    this.cliente.nombres = this.formGroupCrudCliente.get('nombres').value;
-    this.cliente.apellidos = this.formGroupCrudCliente.get('apellidos').value;
-    this.cliente.telefono = this.formGroupCrudCliente.get('telefono').value;
-    this.cliente.correoElectronico = this.formGroupCrudCliente.get('correoElectronico').value;
-    this.cliente.direccion = this.formGroupCrudCliente.get('direccion').value;
-    this._clienteService.savedClient(this.cliente).subscribe(rs => {
-      console.log('rs: ', rs);
-      this._clienteService.setCliente(rs);
-      this.builderFormCrudCliente();
-    }
-  );
+    this._dialogService.openConfirmDialog(msjConfirma)
+        .afterClosed().subscribe(confirm => {
+          if(confirm) {
+                this.cliente.numeroIdentificacion = this.formGroupCrudCliente.get('numeroIdentificacion').value;
+                this.cliente.nombres = this.formGroupCrudCliente.get('nombres').value;
+                this.cliente.apellidos = this.formGroupCrudCliente.get('apellidos').value;
+                this.cliente.telefono = this.formGroupCrudCliente.get('telefono').value;
+                this.cliente.correoElectronico = this.formGroupCrudCliente.get('correoElectronico').value;
+                this.cliente.direccion = this.formGroupCrudCliente.get('direccion').value;
+                // this._clienteService.savedClient(this.formGroupCrudCliente.value).subscribe(rs => {
+                this._clienteService.savedClient(this.cliente).subscribe(rs => {
+                  console.log('rs: ', rs);
+                  this._clienteService.setCliente(rs);
+                  this.builderFormCrudCliente();
+                  this._notificationService.openSnackBar(msjNotificacion, null);
+                  this.dialogRef.close(false);
+                }
+              );
+          }
+        });
   }
+
+  obtenerBalanceUltimasComprasCliente() {
+    this._clienteService.setCliente(this.cliente);
+  }
+
 }

@@ -1,0 +1,19 @@
+.alert {
+  margin-top: 10px;
+}
+
+.example-container {
+  height: 400px;
+  overflow: auto;
+  position: relative !important;
+}
+
+.chart {
+  width: 130px;
+  height: 130px;
+}
+
+table {
+  width: 100%;
+  overflow: auto;
+}

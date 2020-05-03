@@ -1,12 +1,19 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <h2 mat-dialog-title>{{ titleModal }}</h2>
+    <div class="col-11">
+      <h2 mat-dialog-title>{{ titleModal }}</h2>
+    </div>
+    <div class="col">
+      <a type="button" (click) = "dialogRef.close(false)">
+        <mat-icon svgIcon="close" title="Cerrar"></mat-icon>
+      </a>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 <form [formGroup]="formGroupCrudCliente" class="example-form" >
 <mat-dialog-content>
   <mat-tab-group>
-    <mat-tab label="Datos Cliente">
+    <mat-tab  label="Datos Cliente">
       <mat-grid-list cols="2" rowHeight="2:1">
 
         <input name="codigoCliente" formControlName="codigoCliente" type="hidden">
@@ -65,22 +72,29 @@
         </mat-grid-tile>
 
     </mat-grid-list>
+    <div class="row" *ngIf="!inhabilitarCompomente">
+      <div class="col">
+          <div mat-dialog-actions>
+              <button mat-raised-button color="primary" (click)="cleanFormCliente()">Nuevo</button>
+          </div>
+      </div>
+      <div class="col">
+          <div mat-dialog-actions>
+              <button  mat-raised-button color="primary" (click)="guardarCliente()"
+                      [disabled]="formGroupCrudCliente.invalid"> Guardar
+              </button>
+          </div>
+      </div>
+    </div>
+  </mat-tab>
+
+  <!-- Pestaña estadisitcas de compras cliente -->
+  <mat-tab label="Estadisticas de Compras" (click) = obtenerBalanceUltimasComprasCliente()>
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <app-estadistica-compras-cliente></app-estadistica-compras-cliente>
+      </mat-grid-list>
   </mat-tab>
 </mat-tab-group>
 </mat-dialog-content>
-  <div class="row" *ngIf="!inhabilitarCompomente">
-    <div class="col">
-        <div mat-dialog-actions>
-            <button mat-raised-button color="primary" (click)="cleanFormCliente()">Nuevo</button>
-        </div>
-    </div>
-    <div class="col">
-        <div mat-dialog-actions>
-            <button  mat-raised-button color="primary" (click)="guardarCliente()"
-                    [disabled]="formGroupCrudCliente.invalid"
-                  > Guardar
-            </button>
-        </div>
-    </div>
-  </div>
+
 </form>
