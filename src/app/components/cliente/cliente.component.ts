@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material';
 import { MatPaginatorIntl, MatSort, MatPaginator } from "@angular/material";
 import { ClienteService } from 'src/app/services/cliente.service';
-import { Clientes } from 'src/app/models/cliente';
+import { Cliente } from 'src/app/models/cliente';
 import { ImageIconService } from 'src/app/services/image-icon.service';
 import { CrudClienteDialogComponent } from '../dialogs/crud-cliente-dialog/crud-cliente-dialog.component';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -61,7 +61,7 @@ export class ClienteComponent implements OnInit {
      });
   }
 
-  openDialogUpdateReadCliente(readUpdateCliente: Clientes, flag_accion: string): void {
+  openDialogUpdateReadCliente(readUpdateCliente: Cliente, flag_accion: string): void {
     this._clienteService.setCliente(readUpdateCliente);
     if(flag_accion == "edit") {
       this._dialogService.setTituloModal("Editar Cliente");
@@ -82,7 +82,7 @@ export class ClienteComponent implements OnInit {
       });
   }
 
-  public printDataBasicCustomer(cliente: Clientes) {
+  public printDataBasicCustomer(cliente: Cliente) {
       console.table({
         nombres: cliente.nombres,
         numeroIdentificacion: cliente.numeroIdentificacion

@@ -1,0 +1,14 @@
+.dimention-card {
+  max-width: 450px;
+  margin-top: 10px;
+  position: static;
+}
+
+.position-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.mat-card-image {
+  margin: auto;
+  max-width: 200px
+}

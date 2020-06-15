@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Clientes } from 'src/app/models/cliente';
+import { Cliente } from 'src/app/models/cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -16,7 +16,7 @@ import { ImageIconService } from 'src/app/services/image-icon.service';
 export class CrudClienteDialogComponent implements OnInit {
 
   public formGroupCrudCliente: FormGroup;
-  public cliente: Clientes;
+  public cliente: Cliente;
   public titleModal: string;
   public inhabilitarCompomente: boolean;
 

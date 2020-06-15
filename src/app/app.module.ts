@@ -1,9 +1,9 @@
 //Modulos
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {MaterialModule} from './material.module';
+import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 //Rutas
@@ -17,12 +17,15 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { CrudClienteDialogComponent } from './components/dialogs/crud-cliente-dialog/crud-cliente-dialog.component';
 import { EstadisticaComprasClienteComponent } from './components/dialogs/crud-cliente-dialog/estadistica-compras-cliente/estadistica-compras-cliente.component';
+import { ListarProductoComponent } from './components/producto/listar-producto/listar-producto.component';
+import { AddEditProductoComponent } from './components/producto/add-edit-producto/add-edit-producto.component';
 
 //service
 import { ClienteService } from './services/cliente.service';
 import { ImageIconService } from './services/image-icon.service';
 import { DialogService } from './services/dialog.service';
 import { NotificationService } from './services/notification.service';
+import { ProductoService } from './services/producto.service';
 
 //Customs directivas
 import { DisableControlDirectiveDirective } from './directives/disable-control-directive.directive';
@@ -30,6 +33,7 @@ import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/conf
 
 //Graficas
  import { ChartsModule } from 'ng2-charts';
+import { ValidateStrPipe } from './pipes/validate-str.pipe';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,10 @@ import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/conf
     CrudClienteDialogComponent,
     DisableControlDirectiveDirective,
     ConfirmDialogComponent,
-    EstadisticaComprasClienteComponent
+    EstadisticaComprasClienteComponent,
+    ListarProductoComponent,
+    AddEditProductoComponent,
+    ValidateStrPipe
   ],
   entryComponents: [CrudClienteDialogComponent, ConfirmDialogComponent],
   imports: [
@@ -53,7 +60,11 @@ import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/conf
     ReactiveFormsModule,
     ChartsModule
   ],
-  providers: [ClienteService, ImageIconService, DialogService, NotificationService],
+  providers: [ClienteService, 
+              ImageIconService, 
+              DialogService, 
+              NotificationService,
+              ProductoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

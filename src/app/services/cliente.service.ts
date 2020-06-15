@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Clientes } from '../models/cliente';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Cliente } from '../models/cliente';
+import { HttpClient } from '@angular/common/http';
 import { Endpoints } from '../global/enpoint';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -10,43 +10,43 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ClienteService {
 
-  private cliente: Clientes;
+  private cliente: Cliente;
 
   constructor(private httpClient: HttpClient) { }
 
-  getListClientes(): Observable<Clientes[]> {
-    return this.httpClient.get<GetResponseClient>(Endpoints.CLIENTES_ALL)
+  getListClientes(): Observable<Cliente[]> {
+    return this.httpClient.get<GetResponseClient>(Endpoints.ENDPOINT_CUSTOMER)
     .pipe(
       map(response => response._embedded.clientes)
     );
   }
 
-  savedClient(cliente: Clientes): Observable<any> {
+  savedClient(cliente: Cliente): Observable<any> {
     if(cliente.codigoCliente != null) {
-      return this.httpClient.put(Endpoints.CLIENTES_ALL + cliente.codigoCliente, cliente)
+      return this.httpClient.put(Endpoints.ENDPOINT_CUSTOMER + cliente.codigoCliente, cliente)
             .pipe(
                 tap(result => console.log('Cliente modificado: ' + result))
             );
     } else {
-      return this.httpClient.post(Endpoints.CLIENTES_ALL, cliente).pipe(
+      return this.httpClient.post(Endpoints.ENDPOINT_CUSTOMER, cliente).pipe(
           tap(result => console.log('Nuevo cliente registrado: ' + result))
         );
     }
   }
 
   getLatestBalancePurchaseCustomer(codigoCliente: number): Observable<any> {
-  return  this.httpClient.get(Endpoints.CLIENTES_ALL
+  return  this.httpClient.get(Endpoints.ENDPOINT_CUSTOMER
                         + Endpoints.CLIENT_REPORT_BALANCE_LAST_SHOPPING + codigoCliente)
   }
 
   public printDataBasicCustomer(codigoCliente: number){
 
-    return this.httpClient.get(Endpoints.CLIENTES_ALL + Endpoints.CLIENT_REPORT_PRINT_BASIC_DATA + codigoCliente,
+    return this.httpClient.get(Endpoints.ENDPOINT_CUSTOMER + Endpoints.CLIENT_REPORT_PRINT_BASIC_DATA + codigoCliente,
         {responseType: 'blob'});
 }
 
 
-  newCliente(): Clientes {
+  newCliente(): Cliente {
     return {
       codigoCliente: null,
       numeroIdentificacion: '',
@@ -60,13 +60,13 @@ export class ClienteService {
 
   public getCliente(){ return this.cliente }
 
-  public setCliente(cliente: Clientes): void { this.cliente = cliente; }
+  public setCliente(cliente: Cliente): void { this.cliente = cliente; }
 
 }
 
 export interface GetResponseClient {
   _embedded: {
-    clientes: Clientes[];
+    clientes: Cliente[];
     _link: {self: {href: string}};
   }
 }
