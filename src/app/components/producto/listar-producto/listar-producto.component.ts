@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Producto } from 'src/app/models/producto';
 import { ImageIconService } from 'src/app/services/image-icon.service';
 import { ProductoService } from 'src/app/services/producto.service';
-
+import { NotificationService } from 'src/app/services/notification.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,148 +13,88 @@ import { ProductoService } from 'src/app/services/producto.service';
 })
 
 export class ListarProductoComponent implements OnInit {
-  public LIST_PRODUCTOS: Producto[] = [{
-    codigoProducto: 1,
-    codigoBarras: '7501001305758',
-    descripcion: 'Vick Drops pastilla sabor cereza x 5 und',
-    stockActual: 100,
-    costoUnitario: 750,
-    precioVenta: 1500,
-    marca: 'Vick',
-    categoria:{descripcionCategoria:'Pastillas'},
-    descripcionCorta: 'Vick Drops Pastilla cereza X 5 und'
-  },
-  {
-    codigoProducto: 2,
-    codigoBarras: '7706569001450',
-    descripcion: 'Naproxeno 500 mg tabletas recubiertas x 10 und',
-    stockActual: 20,
-    costoUnitario: 3500,
-    precioVenta: 6500,
-    marca: 'American Generic',
-    categoria:{descripcionCategoria:'Tabletas'},
-    descripcionCorta: "Naproxeno 500MG Tab X 10 und"
-  },
-  {
-    codigoProducto: 3,
-    codigoBarras: '7702025186464',
-    descripcion: 'Noel wafers',
-    stockActual: 20,
-    costoUnitario: 500,
-    precioVenta: 4500,
-    marca: 'Noel',
-    descripcionCorta: "Noel wafers",
-    categoria:{descripcionCategoria:'Varios'}
-  },
-  {
-    codigoProducto: 4,
-    codigoBarras: '040000514510',
-    descripcion: 'Capsulas de Chocolate m & m',
-    stockActual: 20,
-    costoUnitario: 3500,
-    precioVenta: 6500,
-    marca: 'Peanut',
-    categoria:{descripcionCategoria:'Varios'},
-    descripcionCorta: "m & m"
-  },
-  {
-    codigoProducto: 4,
-    codigoBarras: '040000514510',
-    descripcion: 'Capsulas de Chocolate m & m',
-    stockActual: 20,
-    costoUnitario: 3500,
-    precioVenta: 6500,
-    marca: 'Peanut',
-    categoria:{descripcionCategoria:'Varios'},
-    descripcionCorta: "m & m"
-  },
-  {
-    codigoProducto: 3,
-    codigoBarras: '7702025186464',
-    descripcion: 'Noel wafers',
-    stockActual: 20,
-    costoUnitario: 500,
-    precioVenta: 4500,
-    marca: 'Noel',
-    descripcionCorta: "Noel wafers",
-    categoria:{descripcionCategoria:'Varios'}
-  },
-  {
-    codigoProducto: 4,
-    codigoBarras: '040000514510',
-    descripcion: 'Capsulas de Chocolate m & m',
-    stockActual: 20,
-    costoUnitario: 3500,
-    precioVenta: 6500,
-    marca: 'Peanut',
-    categoria:{descripcionCategoria:'Varios'},
-    descripcionCorta: "m & m"
-  },
-  {
-    codigoProducto: 4,
-    codigoBarras: '040000514510',
-    descripcion: 'Capsulas de Chocolate m & m',
-    stockActual: 20,
-    costoUnitario: 3500,
-    precioVenta: 6500,
-    marca: 'Peanut',
-    categoria:{descripcionCategoria:'Varios'},
-    descripcionCorta: "m & m"
-  },
-  {
-    codigoProducto: 3,
-    codigoBarras: '7702025186464',
-    descripcion: 'Noel wafers',
-    stockActual: 20,
-    costoUnitario: 500,
-    precioVenta: 4500,
-    marca: 'Noel',
-    descripcionCorta: "Noel wafers",
-    categoria:{descripcionCategoria:'Varios'}
-  },
-  {
-    codigoProducto: 4,
-    codigoBarras: '040000514510',
-    descripcion: 'Capsulas de Chocolate m & m',
-    stockActual: 20,
-    costoUnitario: 3500,
-    precioVenta: 6500,
-    marca: 'Peanut',
-    categoria:{descripcionCategoria:'Varios'},
-    descripcionCorta: "m & m"
-  },
-  {
-    codigoProducto: 4,
-    codigoBarras: '040000514510',
-    descripcion: 'Capsulas de Chocolate m & m',
-    stockActual: 20,
-    costoUnitario: 3500,
-    precioVenta: 6500,
-    marca: 'Peanut',
-    categoria:{},
-    descripcionCorta: "m & m"
-  }
-]
+  public LIST_PRODUCTOS: any[] = []
+  private lstProductsTemp: any[] = [];
 
+  public flagLoading: boolean;
+  public messangeError: string;
 
-  constructor(private _imageIconService: ImageIconService, 
-              private _productoService: ProductoService) { }
+  constructor(private _imageIconService: ImageIconService
+    , private _productoService: ProductoService
+    , private _notificationService: NotificationService
+    , private _router: Router) { }
 
   ngOnInit() {
-    this._imageIconService.loadIconApp();
-    this._productoService.getListProductos()
-          .subscribe(data => {
-            this.LIST_PRODUCTOS = data;
-          });
+    this.flagLoading = true;
+    this._productoService.getListProductos().subscribe(data => {
+      this.LIST_PRODUCTOS = data;
+      this.lstProductsTemp = data;
+      this.flagLoading = false;
+    }, (errorService) => {
+      this.flagLoading = false;
+      if (errorService.ok === false && errorService.status === 0) {
+        let messange = new String('No se pudo establecer conexión con el servidor.\n'
+          + ' Por lo tanto, el servicio no se encuentra disponible. \n');
+        this.messangeError = messange.concat('El error presentado es el siguiente: ' + errorService.message);
+      } else {
+        this.messangeError = 'Se presento el siguiente error: ' + errorService.message;
+      }
+      this._notificationService.openSnackBar(this.messangeError, 'ERROR');
+    });
   }
 
   buscarProducto(textSearch: string) {
-    console.log(textSearch);
-    this._productoService.getProductByParamAny(textSearch)
+    this.flagLoading = true;
+    let lstProducts = this.LIST_PRODUCTOS.filter((producto) => {
+      return this.getFilterProduct(textSearch, producto);
+    });
+
+    if (lstProducts.length > 0) {
+      if (textSearch == '') {
+        this.LIST_PRODUCTOS = this.lstProductsTemp;
+      } else {
+        this.LIST_PRODUCTOS = lstProducts;
+      }
+      this.flagLoading = false;
+    } else {
+      this.flagLoading = true;
+      this._productoService.getProductByParamAny(textSearch)
         .subscribe(data => {
-          console.log(data._embedded.productoes);
-          this.LIST_PRODUCTOS = data._embedded.productoes;
+          this.LIST_PRODUCTOS = data;
+          this.flagLoading = false;
+        }, (errorService) => {
+          this.flagLoading = false;
+          if (errorService.ok === false && errorService.status === 0) {
+              this.messangeError = 'El servicio no se encuentra disponible. ';
+          } else {
+            this.messangeError = 'Se presento el siguiente error: ' + errorService.message;
+          }
+          this._notificationService.openSnackBar(this.messangeError, 'ERROR');
         });
+
+    }
+
+  }
+
+  getFilterProduct(textSearch: string, producto: any) {
+    return (producto.descripcion.toUpperCase().indexOf(textSearch.toUpperCase()) > -1) ||
+      (producto.descripcionCorta == '' ||
+        producto.descripcionCorta == null ?
+        producto.descripcion : producto.descripcionCorta).toUpperCase()
+        .indexOf(textSearch.toUpperCase()) > -1 ||
+      (producto.marca == '' || producto.marca == null ? '' : producto.marca).toUpperCase()
+        .indexOf(textSearch.toUpperCase()) > -1 ||
+      (producto.categoria == null || producto.categoria.descripcionCategoria == null
+        || producto.categoria.descripcionCategoria == '' ?
+        '' : producto.categoria.descripcionCategoria).toUpperCase()
+        .indexOf(textSearch.toUpperCase()) > -1 ||
+      (producto.codigoBarras.toUpperCase().indexOf(textSearch.toUpperCase()) > -1);
+  }
+
+  editarProducto(producto: Producto) {
+    this._productoService.setTitlePage('Editar Producto')
+    this._productoService.setProducto(producto);
+    this._router.navigate(['add-edit-producto']);
   }
 
 }

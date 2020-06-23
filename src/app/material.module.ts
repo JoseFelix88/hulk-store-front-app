@@ -4,6 +4,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
 
+import {MatSidenavModule} from '@angular/material/sidenav';
+
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDividerModule} from '@angular/material/divider';
+
 import {MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
@@ -37,7 +43,11 @@ import {MatFormFieldModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatSidenavModule,
+        MatMenuModule,
+        MatTooltipModule,
+        MatDividerModule
     ],
     exports:[
         MatFormFieldModule,
@@ -54,7 +64,11 @@ import {MatFormFieldModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatSidenavModule,
+        MatMenuModule,
+        MatTooltipModule,
+        MatDividerModule
     ]
 })
 

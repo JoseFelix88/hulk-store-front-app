@@ -34,6 +34,9 @@ import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/conf
 //Graficas
  import { ChartsModule } from 'ng2-charts';
 import { ValidateStrPipe } from './pipes/validate-str.pipe';
+import { LoadingComponent } from './components/shared/loading/loading.component';
+import { from } from 'rxjs';
+import { MenuAuxProductoComponent } from './components/producto/menu-aux-producto/menu-aux-producto.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { ValidateStrPipe } from './pipes/validate-str.pipe';
     EstadisticaComprasClienteComponent,
     ListarProductoComponent,
     AddEditProductoComponent,
-    ValidateStrPipe
+    ValidateStrPipe,
+    LoadingComponent,
+    MenuAuxProductoComponent
   ],
   entryComponents: [CrudClienteDialogComponent, ConfirmDialogComponent],
   imports: [

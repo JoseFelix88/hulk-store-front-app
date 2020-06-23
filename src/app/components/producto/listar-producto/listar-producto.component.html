@@ -1,46 +1,62 @@
 <div class="container animated fadeIn fast">
-  <h2 mat-dialog-title>LISTADO GENERAL DE PRODUCTOS</h2>
+  <h2 mat-dialog-title>
+    <div style="text-align: center;"> LISTADO GENERAL DE PRODUCTOS</div>
+  </h2>
+  <br>
   <div class="row">
     <div class="col">
-      <input #textSearch (keyup)="buscarProducto(textSearch.value)" matInput name="textSearchProduct"  style="width: 100%;" class="form-control" placeholder="Buscar producto..." type="text" id="textSearchProduct">
+      <input #textSearch (keyup)="buscarProducto(textSearch.value)" matInput name="textSearchProduct"
+        class="form-control text-search" placeholder="Buscar producto: descripción, codigo de barras, categoria o marca" 
+        type="text" id="textSearchProduct">
     </div>
+  </div><br>
+  <div class="row">
+    <div class="col m-5">
+      <app-menu-aux-producto></app-menu-aux-producto>
+   </div>
   </div>
   <div class="row">
-    <div class="col-3" *ngFor="let producto of LIST_PRODUCTOS">
-      <mat-card class="mat-elevation-z8 dimention-card">
-        <mat-card-header>
-          <!-- <div mat-card-avatar class="position-header-image"></div> -->
-          <mat-card-title>{{ producto.descripcionCorta | validateStr: producto.descripcion }}</mat-card-title>
-          <mat-card-subtitle>Referencia: {{ producto.codigoBarras }}</mat-card-subtitle>
-        </mat-card-header>
-        <img class="mat-elevation-z8" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-          alt="Photo of a Shiba Inu">
-        <mat-card-content>
-          <p style="margin-top: 10px">
-            {{ producto.descripcion }}
-          </p>
-          <li>
-            Strock Actual: {{ producto.stockActual | number }}
-          </li>
-          <li>
-            Costo Unitario: $ {{ producto.costoUnitario | number }}
-          </li>
-          <li>
-            Precio Venta: $ {{ producto.precioVenta | number }}
-          </li>
-          <li>
-            Marca: {{ producto.marca }}
-          </li>
-          <li *ngIf="producto.categoria != null">
-            Categoria: {{ producto.categoria.descripcionCategoria | validateStr }}
-          </li>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary" [routerLink]="['add-edit-producto']">Editar</button>
-          <button mat-raised-button color="warn">Ver detalle</button>
-        </mat-card-actions>
-      </mat-card>
+     <div class="col">
+      <app-loading *ngIf="flagLoading"></app-loading>
+      <div class="row" *ngIf="!flagLoading">
+        <div class="col-3" *ngFor="let producto of LIST_PRODUCTOS">
+          <mat-card class="mat-elevation-z8 dimention-card">
+            <mat-card-header>
+              <!-- <div mat-card-avatar class="position-header-image"></div> -->
+              <mat-card-title>{{ producto.descripcionCorta | validateStr: producto.descripcion }}</mat-card-title>
+              <mat-card-subtitle>Referencia: {{ producto.codigoBarras }}</mat-card-subtitle>
+            </mat-card-header>
+            <img class="mat-elevation-z8" mat-card-image
+              src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+              <p style="margin-top: 10px">
+                {{ producto.descripcion }}
+              </p>
+              <li>
+                Strock Actual: {{ producto.stockActual | number }}
+              </li>
+              <li>
+                Costo Unitario: $ {{ producto.costoUnitario | number }}
+              </li>
+              <li>
+                Precio Venta: $ {{ producto.precioVenta | number }}
+              </li>
+              <li>
+                Marca: {{ producto.marca }}
+              </li>
+              <li *ngIf="producto.categoria != null">
+                Categoria: {{ producto.categoria.descripcionCategoria | validateStr }}
+              </li>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" [routerLink]="['add-edit-producto']" 
+                      (click)="editarProducto(producto)">Editar</button>
+              <button mat-raised-button color="warn">Ver detalle</button>
+            </mat-card-actions>
+          </mat-card>
 
+        </div>
+      </div>
     </div>
   </div>
 </div>

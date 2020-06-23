@@ -1,1 +1,117 @@
-<p>add-edit-producto works!</p>
+<div class="row animated fadeIn">
+    <div class="col">
+        <h2>{{ titlePage }}</h2>
+    </div>
+    <div class="col-4 text-right">
+        <button routerLink="/list-producto" class="btn btn-outline-danger">
+            Regresar
+        </button>
+    </div>
+</div>
+<mat-divider class="mt-2"></mat-divider>
+<form action="" [formGroup]="formGroupProduct" class="size-margin-form">
+    <mat-grid-list cols="3" rowHeight="2:1">
+        <input name="codigoProducto" formControlName="codigoProducto" type="hidden">
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="codigoBarras" formControlName="codigoBarras" placeholder="Código de barras"
+                    type="text" id="textcodigoBarras" maxlength="20" [disableControl]="inhabilitarCompomente">
+                <mat-error>Ingrese el código de barras.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción" type="text"
+                    id="textDescripcion" maxlength="100" [disableControl]="inhabilitarCompomente">
+                <mat-error>Ingrese la descripción del producto.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="stockActual" formControlName="stockActual" placeholder="Stock Actual"
+                    type="number" id="textStockActual" [disableControl]="inhabilitarCompomente">
+                <mat-error>Ingrese el stock del producto.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="3" rowHeight="2:1">
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="costoUnitario" formControlName="costoUnitario" placeholder="Costo unitario"
+                    type="number" id="textCostoUnitario" [disableControl]="inhabilitarCompomente">
+                <mat-error>Ingrese el costo unitario del producto.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="precioVenta" formControlName="precioVenta" placeholder="Precio de Venta"
+                    type="number" id="textPrecioVenta" [disableControl]="inhabilitarCompomente"
+                    (keyup)="calcularUtilidad()">
+                <mat-error>Ingrese el precio de venta del producto.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="valorUtilidad" formControlName="valorUtilidad" placeholder="Valor de la Utilidad"
+                    type="number" id="textValorUtilidad" [disableControl]="inhabilitarCompomente">
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="3" rowHeight="2:1">
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="marca" formControlName="marca" placeholder="Marca" type="text" id="textMarca"
+                    maxlength="100" [disableControl]="inhabilitarCompomente">
+                <mat-error>Ingrese la descripción del producto.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <mat-label>Categoria</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let food of foods" [value]="food.value">
+                        {{food.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="descripcionCorta" formControlName="descripcionCorta"
+                    placeholder="Descripción Corta" type="text" id="textDescripcionCorta" maxlength="50"
+                    [disableControl]="inhabilitarCompomente">
+                <mat-error>Ingrese la descripción corta del producto.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="fechaActualizacion" formControlName="fechaActualizacion"
+                    placeholder="Fecha de Actualización" type="datetime" id="textFechaActualizacion">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="field-full-width">
+                <input matInput name="fechaRegistro" formControlName="fechaRegistro" placeholder="Fecha de Registro"
+                    type="datetime" id="textFechaRegistro">
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <div class="row">
+        <div class="col">
+            <div mat-dialog-actions>
+                <button mat-raised-button color="primary" (click)="guardarProduct()"
+                    [disabled]="formGroupProduct.invalid">
+                    Guardar
+                </button>
+            </div>
+        </div>
+        <div class="col">
+            <div mat-dialog-actions>
+                <button mat-raised-button color="primary" (click)="cleanFormProduct()">Nuevo</button>
+            </div>
+
+        </div>
+    </div>
+</form>

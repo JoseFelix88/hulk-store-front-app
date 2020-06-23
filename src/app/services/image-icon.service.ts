@@ -33,5 +33,9 @@ export class ImageIconService {
     this.iconRegistry.addSvgIcon(
           'close',
     this.sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/close.svg'));
+    
+    this.iconRegistry.addSvgIcon(
+          'menu-list',
+    this.sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/open-menu.svg'));
   }
 }

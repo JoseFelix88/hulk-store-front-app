@@ -8,7 +8,7 @@ import { AddEditProductoComponent } from './components/producto/add-edit-product
 const APP_ROUTES: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'cliente', component: ClienteComponent },
-    { path: 'producto', component: ListarProductoComponent },
+    { path: 'list-producto', component: ListarProductoComponent },
     { path: 'add-edit-producto', component: AddEditProductoComponent },
     { path: '**', pathMatch: 'full', redirectTo: 'home' }
 

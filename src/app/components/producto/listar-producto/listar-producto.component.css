@@ -1,7 +1,7 @@
 .dimention-card {
   max-width: 450px;
   margin-top: 10px;
-  position: static;
+  position: relative;
 }
 
 .position-header-image {
@@ -10,5 +10,12 @@
 }
 .mat-card-image {
   margin: auto;
-  max-width: 200px
+  max-width: 170px
+}
+
+.text-search {
+  margin-top: 5px;
+  width: 83%;
+  margin-top: 5px;
+  margin-left: auto;
 }

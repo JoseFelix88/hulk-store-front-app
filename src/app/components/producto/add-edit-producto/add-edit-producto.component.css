@@ -1,0 +1,18 @@
+.size-margin-form {
+    min-width: 150px;
+    max-width: 530px;
+    width: 100%;
+    margin: -1px;
+    padding: 5px;
+    text-align: left;
+   }
+ 
+  .field-full-width {
+    width: 100%;
+    margin: auto;
+    padding: 15px;
+  }
+
+  .mat-raised-button {
+    width: 100%;
+  }

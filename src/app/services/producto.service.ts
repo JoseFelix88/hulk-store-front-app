@@ -17,7 +17,27 @@ export interface GetResponseProduct {
 })
 export class ProductoService {
 
+  private producto: Producto;
+
+  getProducto(): Producto {
+    return this.producto;
+  }
+  
+  setProducto(producto: Producto) {
+    this.producto = producto;
+  }
+
+  private titlePage: string;
+
   constructor(private httpClient: HttpClient) { }
+
+  public getTitlePage(): string {
+    return this.titlePage;
+  }
+
+  public setTitlePage(titlePage: string) {
+    this.titlePage = titlePage;
+  }
 
   getListProductos(): Observable<Producto[]> {
     try {
@@ -32,12 +52,10 @@ export class ProductoService {
   }
 
   getProductByParamAny(textSearch: string): Observable<any> {
-    console.log( Endpoints.ENDPOINT_PRODUCTS
-      + Endpoints.PRODUCT_SEARCH_PARAM_ANY 
-      + textSearch);
-    return this.httpClient.get(
-                  Endpoints.ENDPOINT_PRODUCTS
-                + Endpoints.PRODUCT_SEARCH_PARAM_ANY 
-                + textSearch);
+      return this.httpClient.get(
+                  Endpoints.ENDPOINT_PRODUCTS + Endpoints.PRODUCT_SEARCH_PARAM_ANY 
+                + textSearch)
+                .pipe( map(response => response["_embedded"].productoes) );
+                
   }
 }
